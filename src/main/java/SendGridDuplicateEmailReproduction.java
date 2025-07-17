@@ -31,34 +31,27 @@ public class SendGridDuplicateEmailReproduction {
   }
 
   public static void sendSingleEmail(String recipientEmail) throws Exception {
-    String requestId = UUID.randomUUID().toString();
-    String subject = "Test Email - Single Send " + requestId;
+    var requestId = UUID.randomUUID().toString();
+    var subject = "Test Email - Single Send " + requestId;
 
     System.out.println("Sending single email with request ID: " + requestId);
     System.out.println("Recipient: " + recipientEmail);
     System.out.println("Subject: " + subject);
 
     // Create personalization
-    Personalization personalization = new Personalization();
+    var personalization = new Personalization();
     personalization.addCustomArg("X-TG-Request-ID", requestId);
     personalization.addHeader("Message-ID", requestId);
 
     // Add recipient
-    Email to = new Email(recipientEmail);
+    var to = new Email(recipientEmail);
     personalization.addTo(to);
 
     // Add BCC to support email
     personalization.addBcc(new Email(SUPPORT_EMAIL));
 
-    // Set subject
-    personalization.setSubject(subject);
-
-    // Set sender
-    Email from = new Email(SENDER_EMAIL, SENDER_NAME);
-    personalization.setFrom(from);
-
     // Create content
-    Content content = new Content("text/plain",
+    var content = new Content("text/plain",
         "This is a test email to reproduce the SendGrid duplicate email issue.\n\n" +
             "Request ID: " + requestId + "\n" +
             "Timestamp: " + System.currentTimeMillis() + "\n\n" +
@@ -66,18 +59,21 @@ public class SendGridDuplicateEmailReproduction {
     );
 
     // Create mail object
-    Mail mail = new Mail(from, subject, to, content);
+    final var mail = new Mail();
+    mail.setFrom(new Email(SENDER_EMAIL, SENDER_NAME));
+    mail.setSubject(subject);
     mail.addHeader("X-TG-Request-ID", requestId);
+    mail.addContent(content);
     mail.addPersonalization(personalization);
 
     // Build request
-    Request request = new Request();
+    var request = new Request();
     request.setMethod(Method.POST);
     request.setEndpoint("mail/send");
     request.setBody(mail.build());
 
     // Send via SendGrid
-    SendGrid sendGrid = new SendGrid(SENDGRID_API_KEY);
+    var sendGrid = new SendGrid(SENDGRID_API_KEY);
     var response = sendGrid.api(request);
 
     System.out.println("SendGrid Response Status: " + response.getStatusCode());
