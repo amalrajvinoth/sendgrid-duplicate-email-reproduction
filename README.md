@@ -35,7 +35,7 @@
    export SENDGRID_API_KEY="your_sendgrid_api_key_here"
    # Should match a verified sender in your SendGrid account
    export SENDER_EMAIL="sg-sender@mailinator.com"
-   export SENDER_NAME="yG Sender"
+   export SENDER_NAME="SG Sender"
    export SUPPORT_EMAIL="sg-support@mailinator.com"
    export RECIPIENT_EMAIL="sg-sreceiver@mailinator.com"
   
@@ -52,13 +52,9 @@
    mvn exec:java -Dexec.mainClass="SendGridDuplicateEmailReproduction"
    ```
 
-   Or build and run the JAR:
-   ```bash
-   mvn clean package
-   java -jar target/sendgrid-duplicate-email-reproduction-1.0.0.jar
-   ```
-
 3. **Check the recipient's inbox**
-   - Look for emails with subject containing "Test Email - Single Send"
+   - Look for emails with a subject containing "Test Email - Single Send"
    - You should see 2 identical emails instead of 1
+   - https://www.mailinator.com/v4/public/inboxes.jsp?msgid=arvtgs-1752778985-013255783013&to=arvtgs#
+- ![img.png](img.png)
 
