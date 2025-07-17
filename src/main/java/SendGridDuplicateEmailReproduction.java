@@ -10,18 +10,16 @@ import java.util.UUID;
 public class SendGridDuplicateEmailReproduction {
 
   private static final String SENDGRID_API_KEY = System.getenv("SENDGRID_API_KEY");
-  private static final String SENDER_EMAIL = System.getenv("SENDER_EMAIL"); // Update this
-  private static final String SENDER_NAME = System.getenv("SENDER_NAME"); // Update this
-  private static final String SUPPORT_EMAIL = System.getenv("SUPPORT_EMAIL"); // Update this
-  private static final String RECIPIENT_EMAIL = System.getenv("RECIPIENT_EMAIL"); // Update this
+  private static final String SENDER_EMAIL = System.getenv("SENDER_EMAIL");
+  private static final String SENDER_NAME = System.getenv("SENDER_NAME");
+  private static final String SUPPORT_EMAIL = System.getenv("SUPPORT_EMAIL");
+  private static final String RECIPIENT_EMAIL = System.getenv("RECIPIENT_EMAIL");
 
   public static void main(String[] args) {
     if (SENDGRID_API_KEY == null || SENDGRID_API_KEY.isEmpty()) {
       System.err.println("Please set SENDGRID_API_KEY environment variable");
       System.exit(1);
     }
-
-    // Update this email address to test
 
     try {
       sendSingleEmail(RECIPIENT_EMAIL);
